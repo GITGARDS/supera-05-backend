@@ -40,8 +40,8 @@ public class TransferenciaUtils {
 		PageImpl<Transferencia> pageImpl = new PageImpl<>(
 				List.of(TransferenciaUtils.transferencia_novo(1l, "nome 1")));		
 		resp.setPage(pageImpl);
-		resp.setSaldoTotal(100);
-		resp.setSaldoNoPeriodo(10);		
+		resp.setSaldoTotal(100.00);
+		resp.setSaldoNoPeriodo(10.00);		
 		return resp;		
 	}
 	

@@ -19,6 +19,9 @@ public class TransferenciaService {
 
 	@Autowired
 	private TransferenciaRepository repository;
+	
+	@Autowired
+	private ContaService contaService;
 
 	public Transferencia novo(Transferencia t) {
 		return this.repository.save(t);
@@ -42,7 +45,6 @@ public class TransferenciaService {
 
 	}
 
-	
 	public Page<Transferencia> findall(Pageable pageable) {
 		return this.repository.findAll(pageable);
 	}
@@ -50,21 +52,31 @@ public class TransferenciaService {
 	public List<Transferencia> findall(Specification<Transferencia> spec) {
 		return this.repository.findAll(spec);
 	}
-	
 
 	public Page<Transferencia> findall(Specification<Transferencia> spec, Pageable pageable) {
 		return this.repository.findAll(spec, pageable);
 	}
+//	public Page<Transferencia> findall(long conta_id, Pageable pageable) {
+//		return this.repository.findall(conta_id, pageable);
+//	}
+//	
+//	public List<Transferencia> findall(long conta_id, Specification<Transferencia> spec) {
+//		return this.repository.findall(conta_id, spec);
+//	}
+//	
+//	public Page<Transferencia> findall(long conta_id, Specification<Transferencia> spec, Pageable pageable) {
+//		return this.repository.findall(conta_id, spec, pageable);
+//	}
 
-	public double findsaldonoperiodo(Specification<Transferencia> spec) {
+	public Double findsaldonoperiodo(Specification<Transferencia> spec) {
 		return this.repository.findsaldonoperiodo(this.findall(spec));
 	}
 
-	public double findsaldototal() {
-		return this.repository.findsaldototal();
+	public Double findsaldototal(Long d) {
+		return this.repository.findsaldototal(this.contaService.findbyid(d));
 	}
 
-	public Transferencia findbyid(long id) {
+	public Transferencia findbyid(Long id) {
 		return this.repository.findById(id).orElseThrow();
 	}
 

@@ -8,13 +8,17 @@ import javax.persistence.criteria.Predicate;
 
 import org.springframework.data.jpa.domain.Specification;
 
+import br.com.banco.entities.Conta;
 import br.com.banco.entities.Transferencia;
 
 public class TransferenciaSpec {
 
-	public static Specification<Transferencia> findallRp(String nome, String inicio, String fim) {
+	public static Specification<Transferencia> findallRp(Conta conta_id, String nome, String inicio, String fim) {
 		return (root, query, cb) -> {
 			List<Predicate> predicates = new ArrayList<>();
+			if (conta_id.getId_conta() != 0) {
+				predicates.add(cb.equal(root.get("conta_id"), conta_id));
+			}
 			if (nome != null) {
 				predicates.add(
 						cb.like(cb.lower(root.<String>get("nome_operador_transacao")), "%" + nome.toLowerCase() + "%"));

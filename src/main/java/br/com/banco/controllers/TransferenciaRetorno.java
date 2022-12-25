@@ -6,23 +6,23 @@ import br.com.banco.entities.Transferencia;
 
 public class TransferenciaRetorno {
 
-	private double saldoTotal;
-	private double saldoNoPeriodo;
+	private Double saldoTotal;
+	private Double saldoNoPeriodo;
 	private Page<Transferencia> page;
 
-	public double getSaldoTotal() {
+	public Double getSaldoTotal() {
 		return saldoTotal;
 	}
 
-	public void setSaldoTotal(double saldoTotal) {
+	public void setSaldoTotal(Double saldoTotal) {
 		this.saldoTotal = saldoTotal;
 	}
 
-	public double getSaldoNoPeriodo() {
+	public Double getSaldoNoPeriodo() {
 		return saldoNoPeriodo;
 	}
 
-	public void setSaldoNoPeriodo(double saldoNoPeriodo) {
+	public void setSaldoNoPeriodo(Double saldoNoPeriodo) {
 		this.saldoNoPeriodo = saldoNoPeriodo;
 	}
 
@@ -36,7 +36,7 @@ public class TransferenciaRetorno {
 
 	@Override
 	public String toString() {
-		return String.format("RetornoTransferenciaDto [saldoTotal=%s, saldoNoPeriodo=%s, page=%s]", saldoTotal,
+		return String.format("TransferenciaRetorno [saldoTotal=%s, saldoNoPeriodo=%s, page=%s]", saldoTotal,
 				saldoNoPeriodo, page);
 	}
 

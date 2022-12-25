@@ -24,8 +24,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import br.com.banco.entities.Conta;
 import br.com.banco.entities.Transferencia;
 import br.com.banco.repositories.TransferenciaRepository;
+import br.com.banco.utils.ContaUtils;
 import br.com.banco.utils.TransferenciaUtils;
 
 @ExtendWith(SpringExtension.class)
@@ -164,14 +166,16 @@ class TransferenciaServiceTest {
 	@Test
 	void testFindsaldototal() {
 		double valor = 0;
+		
+		Conta conta = ContaUtils.conta_validade();
 
-		when(this.repository.findsaldototal()).thenReturn(valor);
+		when(this.repository.findsaldototal(conta)).thenReturn(valor);
 
-		double expected = this.service.findsaldototal();
+		double expected = this.service.findsaldototal(conta.getId_conta());
 
 		assertEquals(expected, valor);
 
-		verify(this.repository).findsaldototal();
+		verify(this.repository).findsaldototal(conta);
 	}
 
 	@Test

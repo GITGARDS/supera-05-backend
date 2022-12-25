@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.com.banco.entities.Transferencia;
+import br.com.banco.services.ContaService;
 import br.com.banco.services.TransferenciaService;
 import br.com.banco.spec.TransferenciaSpec;
 
@@ -30,6 +31,9 @@ public class TransferenciaController {
 
 	@Autowired
 	private TransferenciaService service;
+	
+	@Autowired
+	private ContaService contaService;
 
 	@PostMapping(value = "/novo")
 	public ResponseEntity<Transferencia> novo(@RequestBody Transferencia t) {
@@ -83,21 +87,21 @@ public class TransferenciaController {
 	}
 
 	@GetMapping(value = "/findall")
-	public ResponseEntity<TransferenciaRetorno> findall(@RequestParam(required = false) String nome,
-			@RequestParam(required = false) String inicio, @RequestParam(required = false) String fim,
-			@PageableDefault(size = 5, sort = "id") Pageable pageable) {
-
+	public ResponseEntity<TransferenciaRetorno> findall(
+			@RequestParam(required = false) Long conta,
+			@RequestParam(required = false) String nome,
+			@RequestParam(required = false) String inicio, 
+			@RequestParam(required = false) String fim,			
+			@PageableDefault(size = 5, sort = "id") Pageable pageable) {		
 		TransferenciaRetorno resp = new TransferenciaRetorno();
-		resp.setSaldoTotal(this.service.findsaldototal());
-		resp.setSaldoNoPeriodo(this.service.findsaldonoperiodo(TransferenciaSpec.findallRp(nome, inicio, fim)));
-
-		resp.setPage(this.service.findall(TransferenciaSpec.findallRp(nome, inicio, fim), pageable));
-
+		resp.setSaldoTotal(this.service.findsaldototal(conta));
+		resp.setSaldoNoPeriodo(this.service.findsaldonoperiodo(TransferenciaSpec.findallRp(this.contaService.findbyid(conta), nome, inicio, fim)));		
+		resp.setPage(this.service.findall(TransferenciaSpec.findallRp(this.contaService.findbyid(conta),  nome, inicio, fim), pageable));
 		return new ResponseEntity<TransferenciaRetorno>(resp, HttpStatus.OK);
 	}
 
 	@GetMapping(value = "/findbyid/{id}")
-	public ResponseEntity<Transferencia> findbyid(@PathVariable long id) {
+	public ResponseEntity<Transferencia> findbyid(@PathVariable Long id) {
 		Transferencia resp = this.service.findbyid(id);
 		if (resp == null) {
 			return new ResponseEntity<Transferencia>(resp, HttpStatus.NOT_FOUND);
